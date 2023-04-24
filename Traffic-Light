@@ -40,3 +40,57 @@ void changeLights() {
   digitalWrite(yellowLed, HIGH);
   delay(2000);
 }
+
+////
+
+Added code for buzzer functionality
+
+int RedLed = 10;
+int YellowLed = 9;
+int GreenLed = 8;
+
+int Button = 11;
+
+int Buzzer = 13;                                                                                                                                                           
+
+void setup() {
+  pinMode(RedLed, OUTPUT);
+  pinMode(YellowLed, OUTPUT);
+  pinMode(GreenLed, OUTPUT);
+}
+
+void loop() {
+  tone(Buzzer, 100, 500);
+  ChangeLights();
+  ButtonPressed();
+}
+
+void ChangeLights() {
+  digitalWrite(YellowLed, LOW);
+  digitalWrite(GreenLed, HIGH);
+  delay(1000);
+  
+  digitalWrite(GreenLed, LOW);
+  digitalWrite(YellowLed, HIGH);
+  delay(1000);
+  
+  digitalWrite(YellowLed, LOW);
+  digitalWrite(RedLed, HIGH);
+  delay(1000);
+  
+  digitalWrite(RedLed, LOW);
+  digitalWrite(YellowLed, HIGH);
+  delay(1000);
+}
+
+void ButtonPressed() {
+  if (digitalRead(Button) == HIGH) {
+    digitalWrite(GreenLed, HIGH);
+    digitalWrite(YellowLed, HIGH);
+    digitalWrite(RedLed, HIGH);
+    delay(2000);
+    digitalWrite(GreenLed, LOW);
+    digitalWrite(YellowLed, LOW);
+    digitalWrite(RedLed, LOW);
+  }
+}
