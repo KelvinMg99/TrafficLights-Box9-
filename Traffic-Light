@@ -1,0 +1,42 @@
+int redLed = 10;
+int yellowLed = 9;
+int greenLed = 8;
+
+int button = 11;
+
+void setup() {
+  pinMode(redLed, OUTPUT);
+  pinMode(yellowLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(button) == HIGH) {
+    digitalWrite(greenLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(redLed, HIGH);
+    delay(2000);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(redLed, LOW);
+  }
+  changeLights();
+}
+
+void changeLights() {
+  digitalWrite(yellowLed, LOW);
+  digitalWrite(greenLed, HIGH);
+  delay(2000);
+  
+  digitalWrite(greenLed, LOW);
+  digitalWrite(yellowLed, HIGH);
+  delay(2000);
+
+  digitalWrite(yellowLed, LOW);
+  digitalWrite(redLed, HIGH);
+  delay(2000);
+
+  digitalWrite(redLed, LOW);
+  digitalWrite(yellowLed, HIGH);
+  delay(2000);
+}
