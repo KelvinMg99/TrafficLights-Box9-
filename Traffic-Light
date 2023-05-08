@@ -1,96 +1,82 @@
-int redLed = 10;
-int yellowLed = 9;
-int greenLed = 8;
-
-int button = 11;
-
-void setup() {
-  pinMode(redLed, OUTPUT);
-  pinMode(yellowLed, OUTPUT);
-  pinMode(greenLed, OUTPUT);
-}
-
-void loop() {
-  if (digitalRead(button) == HIGH) {
-    digitalWrite(greenLed, HIGH);
-    digitalWrite(yellowLed, HIGH);
-    digitalWrite(redLed, HIGH);
-    delay(2000);
-    digitalWrite(greenLed, LOW);
-    digitalWrite(yellowLed, LOW);
-    digitalWrite(redLed, LOW);
-  }
-  changeLights();
-}
-
-void changeLights() {
-  digitalWrite(yellowLed, LOW);
-  digitalWrite(greenLed, HIGH);
-  delay(2000);
-  
-  digitalWrite(greenLed, LOW);
-  digitalWrite(yellowLed, HIGH);
-  delay(2000);
-
-  digitalWrite(yellowLed, LOW);
-  digitalWrite(redLed, HIGH);
-  delay(2000);
-
-  digitalWrite(redLed, LOW);
-  digitalWrite(yellowLed, HIGH);
-  delay(2000);
-}
-
-////
-
-Added code for buzzer functionality
-
+int GreenLed = 8; 
+int YellowLed = 9; 
 int RedLed = 10;
-int YellowLed = 9;
-int GreenLed = 8;
 
-int Button = 11;
+int OurButton = 11; 
+int TheirButton = 13;
 
-int Buzzer = 13;                                                                                                                                                           
+int Buzzer = 12;
 
-void setup() {
-  pinMode(RedLed, OUTPUT);
-  pinMode(YellowLed, OUTPUT);
+void setup() { 
+  Serial.begin(9600);
+
+  pinMode(RedLed, OUTPUT); 
+  pinMode(YellowLed, OUTPUT); 
   pinMode(GreenLed, OUTPUT);
+
+  pinMode(OurButton, INPUT); 
+  pinMode(TheirButton, INPUT);
+
+  pinMode(Buzzer, OUTPUT); 
 }
 
-void loop() {
-  tone(Buzzer, 100, 500);
-  ChangeLights();
-  ButtonPressed();
+void loop() { 
+  ChangeLights(); 
 }
 
-void ChangeLights() {
-  digitalWrite(YellowLed, LOW);
-  digitalWrite(GreenLed, HIGH);
-  delay(1000);
+void ChangeLights() { 
+  Off(YellowLed); 
+  On(GreenLed); 
+  tone(Buzzer,1000,1000); 
   
-  digitalWrite(GreenLed, LOW);
-  digitalWrite(YellowLed, HIGH);
-  delay(1000);
-  
-  digitalWrite(YellowLed, LOW);
-  digitalWrite(RedLed, HIGH);
-  delay(1000);
-  
-  digitalWrite(RedLed, LOW);
-  digitalWrite(YellowLed, HIGH);
-  delay(1000);
-}
-
-void ButtonPressed() {
-  if (digitalRead(Button) == HIGH) {
-    digitalWrite(GreenLed, HIGH);
-    digitalWrite(YellowLed, HIGH);
-    digitalWrite(RedLed, HIGH);
-    delay(2000);
-    digitalWrite(GreenLed, LOW);
-    digitalWrite(YellowLed, LOW);
-    digitalWrite(RedLed, LOW);
+  for (int i = 0; i <= 4000; i++) { 
+  Serial.println(i); 
+  TheirButtonPressed(); 
+  delay(1); 
   }
+
+  Off(GreenLed); 
+  On(YellowLed); 
+  delay(2000);
+
+  Off(YellowLed); 
+  On(RedLed);
+  
+  for (int i = 0; i <= 7000; i++) { 
+    Serial.println(i); 
+    OurButtonPressed(); 
+    delay(1); 
+  }
+}
+
+void On(int Led) { 
+  digitalWrite(Led, HIGH); 
+}
+
+void Off(int Led) { 
+  digitalWrite(Led, LOW); 
+}
+
+void OurButtonPressed() { 
+  if (digitalRead(OurButton) == HIGH) { 
+    delay(1000); 
+    if (digitalRead(OurButton) == HIGH) { 
+      Serial.println("Our Button Pressed"); 
+      Off(RedLed); 
+      ChangeLights(); 
+    } 
+  } 
+}
+
+void TheirButtonPressed() { 
+  if (digitalRead(TheirButton) == HIGH) { 
+    delay(100); 
+    if (digitalRead(TheirButton) == HIGH) { 
+      Serial.println("Their Button Pressed"); 
+      Off(RedLed); 
+      On(YellowLed); 
+      delay(2000); 
+      ChangeLights(); 
+    } 
+  } 
 }
