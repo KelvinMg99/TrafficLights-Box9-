@@ -25,12 +25,11 @@ void loop() {
 }
 
 void ChangeLights() { 
-  Off(YellowLed); 
+  Off(RedLed); 
   On(GreenLed); 
   tone(Buzzer,500,1000); 
   
   for (int i = 0; i <= 800; i++) { 
-  Serial.println(i); 
   TheirButtonPressed(); 
   delay(1); 
   }
@@ -43,7 +42,6 @@ void ChangeLights() {
   On(RedLed);
   
   for (int i = 0; i <= 1400; i++) { 
-    Serial.println(i); 
     OurButtonPressed(); 
     delay(1); 
   }
@@ -59,7 +57,11 @@ void Off(int Led) {
 
 void OurButtonPressed() { 
   if (digitalRead(OurButton) == HIGH) { 
-    delay(1000); 
+    for (int i = 0; i <= 200; i++) { 
+      if (digitalRead(OurButton) == LOW) 
+        return;
+      delay(1); 
+    } 
     if (digitalRead(OurButton) == HIGH) { 
       Serial.println("Our Button Pressed"); 
       Off(RedLed); 
@@ -70,7 +72,11 @@ void OurButtonPressed() {
 
 void TheirButtonPressed() { 
   if (digitalRead(TheirButton) == HIGH) { 
-    delay(1000); 
+    for (int i = 0; i <= 200; i++) { 
+      if (digitalRead(OurButton) == LOW) 
+        return;
+      delay(1); 
+    }  
     if (digitalRead(TheirButton) == HIGH) { 
       Serial.println("Their Button Pressed"); 
       Off(GreenLed); 
@@ -79,7 +85,6 @@ void TheirButtonPressed() {
       Off(YellowLed);
       On(RedLed);     
       for (int i = 0; i <= 1400; i++) { 
-        Serial.println(i); 
         OurButtonPressed(); 
         delay(1); 
       }
